@@ -32,3 +32,23 @@ Currently Maas Platform needs separate installation as it is not integrated with
 - Request and token rate limiting
 - Gateway API integration
 - OpenAI-compatible API endpoints
+
+---
+
+### OAuth POC with Keycloak
+OAuth 2.0 / OpenID Connect authentication integration for MaaS platform using Keycloak as the identity and authentication provider.
+
+📖 **Guide:** [oauth_poc/README.md](./oauth_poc/README.md)
+
+**Features:**
+- OAuth 2.0 / OIDC authentication with Keycloak
+- JWT token validation via Authorino
+- Tier-based access control using JWT groups claim
+- Request rate limiting based on user tier
+
+**Components:**
+- Red Hat SSO (Keycloak) operator and instance
+- Keycloak realm and client configuration
+- **MaaS platform with OAuth integration**
+- Authorino for JWT validation
+- Limitador for rate limiting
