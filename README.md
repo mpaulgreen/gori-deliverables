@@ -40,10 +40,11 @@ OAuth 2.0 / OpenID Connect authentication integration for MaaS platform using Ke
 
 📖 **Guide:** [oauth_poc/README.md](./oauth_poc/README.md)
 
+📋 **Claim Requirements:** [claim_requirement.md](./oauth_poc/claim_requirement.md)
+
 **Features:**
 - OAuth 2.0 / OIDC authentication with Keycloak
 - JWT token validation via Authorino
-- Tier-based access control using JWT groups claim
 - Request rate limiting based on user tier
 
 **Components:**
