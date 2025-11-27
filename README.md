@@ -18,8 +18,11 @@ Complete deployment guide for Red Hat OpenShift AI 3.0.0 with Service Mesh 3, in
 
 ---
 
-### MaaS Platform (Model-as-a-Service)
+### MaaS Platform Gateway (Model-as-a-Service)
 MaaS platform deployment with token-based authentication, tier-based access control, and rate limiting.
+Currently Maas Platform needs separate installation as it is not integrated with Operator yet.
+
+[Reference](https://docs.google.com/document/d/1KdyoBZGHS6cIBJjEfjLCBhI8fRB-rGXQsWfQGGuy3lc/edit?tab=t.0#heading=h.595hahs0zq0y)
 
 📖 **Guide:** [maas/README.md](./maas/README.md)
 
