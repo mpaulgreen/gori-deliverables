@@ -98,8 +98,21 @@ oc get authpolicy -n maas-api
 oc get ratelimitpolicy -n openshift-ingress
 oc get tokenratelimitpolicy -n openshift-ingress
 
-# 9. Wait for Kuadrant to be ready
-oc wait --for=condition=Ready kuadrant/kuadrant -n kuadrant-system --timeout=300s
+# 9. Wait for Kuadrant to be ready (may show "MissingDependency" error - see step 9a)
+oc get kuadrant kuadrant -n kuadrant-system -o jsonpath='{.status.conditions[?(@.type=="Ready")]}'
+
+# 9a. If Kuadrant shows "MissingDependency" error, restart the Kuadrant operator
+# This is needed because Kuadrant operator may not detect Istio on first deployment
+oc delete pod -n openshift-operators -l app=kuadrant,control-plane=controller-manager
+
+# Wait for operator to restart
+sleep 15
+
+# Verify Kuadrant is now ready
+oc get kuadrant kuadrant -n kuadrant-system -o jsonpath='{.status.conditions[?(@.type=="Ready")]}'
+
+# Verify RateLimitPolicy is enforced
+oc get ratelimitpolicy gateway-rate-limits -n openshift-ingress -o jsonpath='{.status.conditions[?(@.type=="Enforced")]}'
 
 # 10. Wait for MaaS API to be ready
 oc wait --for=condition=Available deployment/maas-api -n maas-api --timeout=300s
@@ -107,13 +120,13 @@ oc wait --for=condition=Available deployment/maas-api -n maas-api --timeout=300s
 # 11. Deploy example model
 oc apply -f model_maas.yaml
 
-# 12. Wait for model to be ready
+# 10. Wait for model to be ready
 oc wait --for=condition=Ready llminferenceservice/facebook-opt-125m-simulated -n llm --timeout=600s
 
-# 13. Check auto-generated HTTPRoute (created in llm namespace, references gateway in openshift-ingress)
+# 11. Check auto-generated HTTPRoute (created in llm namespace, references gateway in openshift-ingress)
 oc get httproute -n llm
 
-# 14. Verify HTTPRoute configuration
+# 12. Verify HTTPRoute configuration
 oc get httproute -n llm -o yaml | grep -A 5 "parentRefs:"
 # Should show: name: maas-default-gateway, namespace: openshift-ingress
 

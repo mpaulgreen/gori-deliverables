@@ -390,7 +390,7 @@ oc get nodes -l nvidia.com/gpu.present=true -o custom-columns=NAME:.metadata.nam
 
 ## Phase 2: Platform Operator Installation
 
-### 2.1 Install cert-manager for Red Hat OpenShift
+### 2.1 Install cert-manager for Red Hat OpenShift [SKIP THIS IF ALREADY INSTALLED]
 
 cert-manager is required for managing TLS certificates for the MaaS platform and model serving.
 
@@ -535,12 +535,6 @@ oc wait --for=jsonpath='{.status.state}'=AtLatestKnown subscription/leader-worke
 
 # Verify CSV
 oc get csv -n openshift-lws-operator
-```
-
-**Note:** You may see Authorino and Limitador CSVs showing as "Pending" in the `openshift-lws-operator` namespace. This is normal behavior - these are reflected/copied CSVs from `openshift-operators` where RHCL components are actually installed. The actual operators are "Succeeded" in their home namespace. You can verify the actual status with:
-```bash
-# Check actual RHCL component status in openshift-operators namespace
-oc get csv -n openshift-operators | grep -E 'rhcl|authorino|limitador'
 ```
 
 ---
